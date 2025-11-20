@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI×SNS - お題</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6C5CE7;
+      --accent: #FD79A8;
+      --bg: #F8F9FA;
+      --card-bg: #FFFFFF;
+      --text: #2D3436;
+      --border: #DFE6E9;
+      --shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+    }
+
+    .topic-banner {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .topic-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .topic-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .post {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-top: 1.5rem;
+    }
+
+    .post-img {
+      width: 100%;
+      height: 400px;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #999;
+    }
+
+    .post-content {
+      padding: 1rem;
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .username {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .timestamp {
+      font-size: 0.8rem;
+      color: #636E72;
+    }
+
+    .post-text {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 1.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: none;
+      border: none;
+      color: #636E72;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .action-btn.liked {
+      color: #E84393;
+    }
+
+    .like-count {
+      font-weight: 600;
+    }
+
+    .comments {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .comment {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .comment-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #ddd;
+      flex-shrink: 0;
+    }
+
+    .comment-body {
+      flex: 1;
+    }
+
+    .comment-user {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .post-img {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- お題バナー -->
+    <div class="topic-banner">
+      <div class="topic-title">「未来の東京駅」</div>
+      <div class="topic-subtitle">現在のトップ投稿が次のお題になります</div>
+    </div>
+
+    <!-- トップ投稿 -->
+    <article class="post">
+      <div class="post-img">AI生成画像 #1</div>
+      <div class="post-content">
+        <div class="post-header">
+          <div class="user-info">
+            <div class="avatar"></div>
+            <div>
+              <div class="username">@taro_ai</div>
+              <div class="timestamp">3分前</div>
+            </div>
+          </div>
+        </div>
+        <p class="post-text">AIが描いた未来の東京駅。浮遊する新幹線と緑のターミナル。</p>
+        
+        <div class="post-actions">
+          <button class="action-btn like-btn liked">
+            ❤️ <span class="like-count">1,284</span>
+          </button>
+          <button class="action-btn">💬 42</button>
+        </div>
+
+        <div class="comments">
+          <div class="comment">
+            <div class="comment-avatar"></div>
+            <div class="comment-body">
+              <span class="comment-user">@hanako</span> これすごい！現実になりそう！
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-avatar"></div>
+            <div class="comment-body">
+              <span class="comment-user">@jiro</span> 浮遊新幹線はいつ乗れるの？
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+</body>
+</html>

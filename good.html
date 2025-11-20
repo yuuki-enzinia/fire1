@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>飲食店通知アプリ - アクションバー削除</title>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@700&family=Noto+Sans+JP:wght@400;500&family=Indie+Flower&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, #f8faff 0%, #e0e7ff 100%);
+      color: #1f2937;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(79, 70, 229, 0.1);
+    }
+    .content h2 {
+      font-family: 'M PLUS 1p', sans-serif;
+      font-size:  1.8rem;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .tech {
+      background: #4F46E5;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* アプリUIモックアップ */
+    .app-mockup {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .phone-frame {
+      width: 340px;
+      height: 680px;
+      margin: 0 auto;
+      background: #111;
+      border-radius: 44px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: #fafafa;
+      border-radius: 20px;
+      overflow: hidden;
+      font-family: 'Indie Flower', cursive;
+      font-size: 1.1rem;
+      color: #333;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* 上部：横並びヘッダー */
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px dashed #ccc;
+    }
+    .hamburger {
+      width: 30px;
+      height: 22px;
+      cursor: pointer;
+    }
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: #4F46E5;
+      border-radius: 2px;
+      margin: 4px 0;
+      transition: 0.3s;
+    }
+    .hamburger:hover span {
+      background: #FBBF24;
+    }
+    .status-time {
+      font-size: 0.75rem;
+      color: #666;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .app-title {
+      font-family: 'M PLUS 1p', sans-serif;
+      font-size: 1.3rem;
+      color: #4F46E5;
+      text-decoration: underline wavy #FBBF24;
+      flex: 1;
+      text-align: center;
+      margin-left: -40px;
+    }
+
+    /* 通知選別タブ */
+    .single-tab {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 12px;
+      background: #4F46E5;
+      color: white;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .store-card {
+      background: white;
+      border: 2px dashed #aaa;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .store-image {
+      width: 100%;
+      height: 80px;
+      background: #ddd;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .store-detail {
+      font-size: 1rem;
+      margin: 4px 0;
+    }
+    .detail-btn {
+      display: inline-block;
+      background: #FBBF24;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      margin-top: 8px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .detail-btn:hover {
+      background: #f59e0b;
+    }
+
+    /* アクションバー削除 → 余白調整 */
+    .phone-screen > *:last-child {
+      margin-bottom: 0;
+    }
+
+    .mockup-note {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      margin-top: 16px;
+      font-style: italic;
+      text-align: center;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    @media (max-width: 768px) {
+      .container { grid-template-columns: 1fr; }
+      .phone-frame { width: 300px; height: 600px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 右側：内容 + UI再現 -->
+    <div class="content">
+      <h2>スマホを持ち歩いていると半径300mの飲食店の通知が入ってくる機能を作っており、<br>通勤・通学中でも「行きたい店」を見つけやすく、遠出時も近くのお店がすぐわかる。もちろん通知オフも可能</h2>
+
+      <div class="tech-stack">
+        <span class="tech">React Native</span>
+        <span class="tech">TypeScript</span>
+        <span class="tech">Java</span>
+      </div>
+
+      <h3>実装した機能</h3>
+      <ul style="margin-bottom: 20px; padding-left: 20px;">
+        <li>TypeScript で位置情報権限を取得</li>
+        <li>Java で15分ごとの通知機能</li>
+        <li>ネイティブイベントと連携</li>
+        <li>APIデータを整形して React Native UI に表示</li>
+        <li>React Native は実機</li>
+      </ul>
+
+      <!-- 手書きUI再現（アクションバー削除） -->
+      <div class="app-mockup">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <!-- 上部：横並び -->
+            <div class="header-bar">
+              <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="app-title">近くの飲食店</div>
+              <div class="status-time">14:33</div>
+            </div>
+
+            <!-- 通知選別タブ -->
+            <div class="single-tab">
+              通知を出す飲食店を選別できるタブ
+            </div>
+
+            <!-- 店舗カード1 -->
+            <div class="store-card">
+              <div class="store-image">店舗画像</div>
+              <div class="store-detail">ラーメン屋 麺蔵</div>
+              <a href="#" class="detail-btn">詳細</a>
+            </div>
+
+            <!-- 店舗カード2 -->
+            <div class="store-card">
+              <div class="store-image">店舗画像</div>
+              <div class="store-detail">カフェ ブルーム</div>
+              <a href="#" class="detail-btn">詳細</a>
+            </div>
+
+            <!-- アクションバー削除済み -->
+
+          </div>
+        </div>
+        <p class="mockup-note">「画像選択」「保存」「その他保存」を完全削除</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

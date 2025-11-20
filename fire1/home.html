@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>次のお題選択 + 今月の1位</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6C5CE7;
+      --accent: #FD79A8;
+      --bg: #F8F9FA;
+      --card-bg: #FFFFFF;
+      --text: #2D3436;
+      --border: #DFE6E9;
+      --shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 2rem;
+    }
+
+    .main-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      color: var(--primary);
+    }
+
+    .prompt-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .prompt-card {
+      background: var(--card-bg);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .prompt-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .prompt-card.selected {
+      border-color: var(--accent);
+      background: #FFF5F5;
+    }
+
+    .prompt-text {
+      font-size: 1.05rem;
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+
+    .prompt-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #636E72;
+    }
+
+    .prompt-author {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .post-now {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .post-now button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+    }
+
+    .post-now button:hover {
+      background: #5A4FCF;
+    }
+
+    .post-now button:disabled {
+      background: #b2bec3;
+      cursor: not-allowed;
+    }
+
+    .post-now small {
+      display: block;
+      margin-top: 0.5rem;
+      color: #636E72;
+      font-size: 0.8rem;
+    }
+
+    /* ランキングサイドバー */
+    .ranking-sidebar {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 1.5rem;
+    }
+
+    .ranking-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .rank-item {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rank-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .rank-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FDCB6E;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .rank-item:nth-child(2) .rank-badge { background: #A29BFE; }
+    .rank-item:nth-child(3) .rank-badge { background: #81ECEC; }
+
+    .rank-img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      background: #ddd;
+      flex-shrink: 0;
+    }
+
+    .rank-info {
+      flex: 1;
+      font-size: 0.9rem;
+    }
+
+    .rank-user {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .rank-text {
+      color: #636E72;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .rank-stats {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #636E72;
+    }
+
+    .rank-stats strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .prize-info {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #636E72;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--border);
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .ranking-sidebar {
+        order: -1;
+        position: static;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .prompt-card {
+        padding: 1rem;
+      }
+      .rank-img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- メイン：次のお題選択 -->
+    <div class="main-content">
+      <h2 class="section-title">次のお題を選んで投稿（100円）</h2>
+
+      <div class="prompt-list">
+        <div class="prompt-card" onclick="selectPrompt(this)">
+          <div class="prompt-text">「夜の東京駅を宇宙船が発着する港に」</div>
+          <div class="prompt-meta">
+            <div class="prompt-author">
+              <div class="avatar"></div>
+              <span>@AI_Random</span>
+            </div>
+            <span>3分前生成</span>
+          </div>
+        </div>
+
+        <div class="prompt-card" onclick="selectPrompt(this)">
+          <div class="prompt-text">「江戸時代風の東京駅に忍者が潜む」</div>
+          <div class="prompt-meta">
+            <div class="prompt-author">
+              <div class="avatar"></div>
+              <span>@AI_Random</span>
+            </div>
+            <span>5分前生成</span>
+          </div>
+        </div>
+
+        <div class="prompt-card" onclick="selectPrompt(this)">
+          <div class="prompt-text">「東京駅が巨大な桜の木に包まれている」</div>
+          <div class="prompt-meta">
+            <div class="prompt-author">
+              <div class="avatar"></div>
+              <span>@AI_Random</span>
+            </div>
+            <span>7分前生成</span>
+          </div>
+        </div>
+
+        <div class="prompt-card" onclick="selectPrompt(this)">
+          <div class="prompt-text">「東京駅が水中都市の玄関口になっている」</div>
+          <div class="prompt-meta">
+            <div class="prompt-author">
+              <div class="avatar"></div>
+              <span>@AI_Random</span>
+            </div>
+            <span>10分前生成</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-now">
+        <button id="postBtn" disabled>お題を選択してください（100円）</button>
+        <small>※ 1つ選んでAI画像を生成・投稿</small>
+      </div>
+    </div>
+
+    <!-- サイド：今月の1位たち -->
+    <aside class="ranking-sidebar">
+      <div class="ranking-title">今月の1位たち</div>
+
+      <div class="rank-item">
+        <div class="rank-badge">1</div>
+        <div class="rank-img">AI画像</div>
+        <div class="rank-info">
+          <div class="rank-user">@taro_ai</div>
+          <div class="rank-text">AIが描いた未来の東京駅。浮遊する新幹線と緑のターミナル。</div>
+          <div class="rank-stats">
+            <span>❤️ <strong>1,284</strong></span>
+            <span>💬 <strong>42</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rank-item">
+        <div class="rank-badge">2</div>
+        <div class="rank-img">AI画像</div>
+        <div class="rank-info">
+          <div class="rank-user">@yuki_design</div>
+          <div class="rank-text">水中都市の東京駅。魚と共存する未来のターミナル。</div>
+          <div class="rank-stats">
+            <span>❤️ <strong>892</strong></span>
+            <span>💬 <strong>28</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rank-item">
+        <div class="rank-badge">3</div>
+        <div class="rank-img">AI画像</div>
+        <div class="rank-info">
+          <div class="rank-user">@ken_crypto</div>
+          <div class="rank-text">NFT化された東京駅。ブロックチェーン上の所有権。</div>
+          <div class="rank-stats">
+            <span>❤️ <strong>756</strong></span>
+            <span>💬 <strong>19</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prize-info">
+        残り <strong>72日</strong><br>
+        総額 <strong>48,200円</strong>（482投稿）
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    function selectPrompt(card) {
+      document.querySelectorAll('.prompt-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      const text = card.querySelector('.prompt-text').textContent;
+      const btn = document.getElementById('postBtn');
+      btn.disabled = false;
+      btn.textContent = `${text} で投稿（100円）`;
+    }
+  </script>
+
+</body>
+</html>
